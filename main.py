@@ -14,17 +14,19 @@ bot = commands.Bot(command_prefix=".", intents=intents)
 async def on_ready():
     print("Bot is ready")
 
-@bot.event()
-async def on_member_join(membro:discord.member):
+@bot.event
+async def on_member_join(membro:discord.Member):
+    canal = bot.get_channel(1254107168337039381)
+    await canal.send(f"{membro.mention} entrou no servidor")
+
+@bot.event
+async def on_reaction_add(reacao:discord.Reaction, membro:discord.Member):
+    await reacao.message.reply(f"o membro {membro.name} reagiu com {reacao.emoji}")
 
 @bot.command()
 async def ola(ctx:commands.Context, *,texto):
     nome = ctx.author.name
     await ctx.reply(f"Olá, {nome}! Tudo bem?")
-
-@bot.command()
-async def ola(ctx:commands.Context, texto):
-    await ctx.send(texto)
 
 @bot.command()
 async def somar(ctx:commands.Context, num1:float, num2:float):
